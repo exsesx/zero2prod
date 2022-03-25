@@ -1,14 +1,9 @@
-use actix_web::{get, web, App, HttpServer, Responder};
+use std::net::TcpListener;
+use zero2prod::run;
 
-#[get("/hello/{name}")]
-async fn greet(name: web::Path<String>) -> impl Responder {
-    format!("Hello {name}!")
-}
-
-#[actix_web::main] // or #[tokio::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(greet))
-        .bind(("127.0.0.1", 8080))?
-        .run()
-        .await
+    let listener = TcpListener::bind("127.0.0.1:8080").expect("Failed to bind random port");
+
+    run(listener)?.await
 }
