@@ -1,6 +1,6 @@
 use actix_web::{web, HttpResponse};
 use chrono::Utc;
-use sqlx::PgPool;
+use sqlx::{Error, PgPool};
 use uuid::Uuid;
 
 #[derive(serde::Deserialize)]
@@ -24,8 +24,15 @@ pub async fn subscribe(form: web::Form<FormData>, pool: web::Data<PgPool>) -> Ht
     .await
     {
         Ok(_) => HttpResponse::Ok().finish(),
-        Err(e) => {
-            println!("Failed to execute query: {}", e);
+        Err(error) => {
+            println!("Failed to execute query: {}", error);
+
+            if let Error::Database(e) = error {
+                if e.code().unwrap() == "23505" {
+                    return HttpResponse::Conflict().finish();
+                }
+            }
+
             HttpResponse::InternalServerError().finish()
         }
     }
