@@ -1,12 +1,10 @@
 use crate::routes::{health_check, subscribe};
 use actix_web::dev::Server;
 use actix_web::{web, App, HttpServer};
-use sqlx::{migrate, PgPool};
+use sqlx::PgPool;
 use std::net::TcpListener;
 
 pub fn run(listener: TcpListener, db_pool: PgPool) -> Result<Server, std::io::Error> {
-    migrate!();
-
     let db_pool = web::Data::new(db_pool);
     let server = HttpServer::new(move || {
         App::new()
