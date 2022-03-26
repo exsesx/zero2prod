@@ -25,7 +25,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
+          POSTGRES_DB: newsletter
         ports:
           - 5432:5432
         options: >-
@@ -36,7 +36,7 @@ jobs:
     env:
       SQLX_VERSION: 0.5.5
       SQLX_FEATURES: postgres
-      DATABASE_URL: postgres://postgres:password@127.0.0.1:5432/postgres
+      DATABASE_URL: postgres://postgres:password@127.0.0.1:5432/newsletter
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -109,7 +109,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
+          POSTGRES_DB: newsletter
         ports:
           - 5432:5432
         options: >-
@@ -120,7 +120,7 @@ jobs:
     env:
       SQLX_VERSION: 0.5.5
       SQLX_FEATURES: postgres
-      DATABASE_URL: postgres://postgres:password@127.0.0.1:5432/postgres
+      DATABASE_URL: postgres://postgres:password@127.0.0.1:5432/newsletter
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -171,7 +171,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
+          POSTGRES_DB: newsletter
         ports:
           - 5432:5432
         options: >-
@@ -182,7 +182,7 @@ jobs:
     env:
       SQLX_VERSION: 0.5.5
       SQLX_FEATURES: postgres
-      DATABASE_URL: postgres://postgres:password@127.0.0.1:5432/postgres
+      DATABASE_URL: postgres://postgres:password@127.0.0.1:5432/newsletter
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
