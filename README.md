@@ -9,4 +9,4 @@ by [@LukeMathWalker](https://github.com/LukeMathWalker).
 This is my attempt to make a production-ready API using the Rust programming language. Along the way, I want to explore
 all the tools I need to make a cool server, naturally moving through the book and other useful resources.
 
-Rust world, meet me! <img src="./excited.gif" width="40" height="40" />
+Rust world, meet me! <img src="./static/excited.gif" width="40" height="40" />
