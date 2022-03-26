@@ -16,3 +16,16 @@ name = "zero2prod"
 actix-web = "4"
 tokio = "1.17"
 reqwest = "0.11"
+serde = { version = "1", features = ["derive"] }
+
+[dependencies.sqlx]
+version = "0.5.7"
+default-features = false
+features = [
+    "runtime-actix-rustls",
+    "macros",
+    "postgres",
+    "uuid",
+    "chrono",
+    "migrate"
+]
