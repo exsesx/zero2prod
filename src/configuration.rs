@@ -39,7 +39,7 @@ impl DatabaseSettings {
 
 pub fn get_configuration() -> Result<Settings, config::ConfigError> {
     let settings = Config::builder()
-        .add_source(File::with_name("configuration.default"))
+        .add_source(File::with_name("configuration.default.yaml"))
         .add_source(File::with_name("configuration").required(false))
         .build()?;
 
