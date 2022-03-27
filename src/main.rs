@@ -5,6 +5,9 @@ use zero2prod::startup::run;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    std::env::set_var("RUST_LOG", "actix_web=info");
+    env_logger::init();
+
     let configuration = get_configuration().expect("Failed to read configuration");
     let connection_pool = PgPool::connect(&configuration.database.connection_string())
         .await
