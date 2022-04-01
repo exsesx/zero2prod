@@ -6,6 +6,7 @@ on:
       - '**/Cargo.lock'
 jobs:
   security_audit:
+    if: ${{ false }} # FIXME: Temporary disabled
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
