@@ -25,6 +25,7 @@ Cargo.lock
 .vscode
 
 # Configurations
-configuration.yaml
+configuration
+!configuration/base.yaml
 .env*
 !.env.example
