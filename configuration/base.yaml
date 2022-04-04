@@ -8,3 +8,7 @@ database:
   password: "password"
   database_name: "newsletter"
   require_ssl: false
+email_client:
+  base_url: "http://localhost"
+  sender_email: "test@example.com"
+  authorization_token: "my-super-secret-token"
