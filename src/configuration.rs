@@ -7,6 +7,8 @@ use sqlx::postgres::{PgConnectOptions, PgSslMode};
 use sqlx::ConnectOptions;
 use url::ParseError;
 
+static APP_ENVIRONMENT: &str = "APP_ENVIRONMENT";
+
 #[derive(serde::Deserialize)]
 pub struct Settings {
     pub database: DatabaseSettings,
@@ -77,7 +79,7 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
     let base_path = std::env::current_dir().expect("Failed to determine the current directory");
     let configuration_directory = base_path.join("configuration");
 
-    let environment: Environment = std::env::var("APP_ENVIRONMENT")
+    let environment: Environment = std::env::var(APP_ENVIRONMENT)
         .unwrap_or_else(|_| "local".into())
         .try_into()
         .expect("Failed to parse APP_ENVIRONMENT.");
