@@ -12,3 +12,4 @@ email_client:
   base_url: "http://localhost"
   sender_email: "test@example.com"
   authorization_token: "my-super-secret-token"
+  timeout_milliseconds: 10000
