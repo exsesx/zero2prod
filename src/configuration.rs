@@ -9,6 +9,7 @@ use url::ParseError;
 
 static APP_ENVIRONMENT: &str = "APP_ENVIRONMENT";
 
+#[derive(Clone)]
 #[derive(serde::Deserialize)]
 pub struct Settings {
     pub database: DatabaseSettings,
@@ -16,6 +17,7 @@ pub struct Settings {
     pub email_client: EmailClientSettings,
 }
 
+#[derive(Clone)]
 #[derive(serde::Deserialize)]
 pub struct EmailClientSettings {
     pub base_url: String,
@@ -30,7 +32,7 @@ impl EmailClientSettings {
     }
 
     pub fn base(&self) -> Result<Url, ParseError> {
-        reqwest::Url::parse(self.base_url.clone().as_str())
+        Url::parse(self.base_url.clone().as_str())
     }
 
     pub fn timeout(&self) -> std::time::Duration {
@@ -38,6 +40,7 @@ impl EmailClientSettings {
     }
 }
 
+#[derive(Clone)]
 #[derive(serde::Deserialize)]
 pub struct ApplicationSettings {
     pub host: String,
@@ -45,6 +48,7 @@ pub struct ApplicationSettings {
     pub port: u16,
 }
 
+#[derive(Clone)]
 #[derive(serde::Deserialize)]
 pub struct DatabaseSettings {
     pub username: String,
