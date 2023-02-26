@@ -75,7 +75,16 @@ pub async fn teardown(app: TestApp) {
         .await
         .expect("Failed to connect to Postgres");
 
-    connection.execute(format!(r#"DROP DATABASE "{}" WITH (FORCE);"#, app.configuration.database.database_name).as_str()).await.expect("Failed to drop test database.");
+    connection
+        .execute(
+            format!(
+                r#"DROP DATABASE "{}" WITH (FORCE);"#,
+                app.configuration.database.database_name
+            )
+            .as_str(),
+        )
+        .await
+        .expect("Failed to drop test database.");
 }
 
 pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
