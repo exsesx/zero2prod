@@ -13,6 +13,7 @@ env:
   CARGO_TERM_COLOR: always
   SQLX_VERSION: 0.6.2
   SQLX_FEATURES: "rustls,postgres"
+  DATABASE_URL: postgresql://zero2prod:zero2prod_password@localhost:5432/newsletter
 
 jobs:
   test:
@@ -39,11 +40,11 @@ jobs:
           key: sqlx-${{ env.SQLX_VERSION }}
       - name: Install sqlx-cli
         run:
-            cargo install sqlx-cli
-            --version=${{ env.SQLX_VERSION }}
-            --features ${{ env.SQLX_FEATURES }}
-            --no-default-features
-            --locked
+          cargo install sqlx-cli
+          --version=${{ env.SQLX_VERSION }}
+          --features ${{ env.SQLX_FEATURES }}
+          --no-default-features
+          --locked
       - name: Migrate database
         run: |
           sudo apt-get install libpq-dev -y
@@ -70,11 +71,11 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:14
+        image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
+          POSTGRES_USER: zero2prod
+          POSTGRES_PASSWORD: zero2prod_password
+          POSTGRES_DB: newsletter
         ports:
           - 5432:5432
     steps:
@@ -88,10 +89,10 @@ jobs:
       - name: Install sqlx-cli
         run:
           cargo install sqlx-cli
-            --version=${{ env.SQLX_VERSION }}
-            --features ${{ env.SQLX_FEATURES }}
-            --no-default-features
-            --locked
+          --version=${{ env.SQLX_VERSION }}
+          --features ${{ env.SQLX_FEATURES }}
+          --no-default-features
+          --locked
       - name: Migrate database
         run: |
           sudo apt-get install libpq-dev -y
@@ -104,7 +105,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:14
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
