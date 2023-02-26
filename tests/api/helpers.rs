@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
 use uuid::Uuid;
-use zero2prod::configuration::{get_configuration, DatabaseSettings};
+use zero2prod::configuration::{get_configuration, DatabaseSettings, Settings};
 use zero2prod::startup::{get_connection_pool, Application};
 use zero2prod::telemetry::{get_subscriber, init_subscriber};
 
@@ -27,6 +27,7 @@ static TRACING: Lazy<()> = Lazy::new(|| {
 pub struct TestApp {
     pub address: String,
     pub db_pool: PgPool,
+    pub configuration: Settings,
 }
 
 impl TestApp {
@@ -59,17 +60,27 @@ pub async fn spawn_app() -> TestApp {
         .await
         .expect("Failed to build application");
     let address = format!("http://127.0.0.1:{}", application.port());
-    let _ = tokio::spawn(application.run_until_stopped());
+    tokio::spawn(application.run_until_stopped());
 
     TestApp {
         address,
         db_pool: get_connection_pool(&configuration.database),
+        configuration,
     }
+}
+
+pub async fn teardown(app: TestApp) {
+    let configuration = app.configuration.database.with_default_db();
+    let mut connection = PgConnection::connect_with(&configuration)
+        .await
+        .expect("Failed to connect to Postgres");
+
+    connection.execute(format!(r#"DROP DATABASE "{}" WITH (FORCE);"#, app.configuration.database.database_name).as_str()).await.expect("Failed to drop test database.");
 }
 
 pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
     // Create database
-    let mut connection = PgConnection::connect_with(&config.without_db())
+    let mut connection = PgConnection::connect_with(&config.with_default_db())
         .await
         .expect("Failed to connect to Postgres");
     connection

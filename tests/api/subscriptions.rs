@@ -1,4 +1,4 @@
-use crate::helpers::spawn_app;
+use crate::helpers::{spawn_app, teardown};
 
 #[actix_web::test]
 async fn subscribe_returns_200_for_valid_form_data() {
@@ -19,6 +19,8 @@ async fn subscribe_returns_200_for_valid_form_data() {
 
     assert_eq!(saved.email, "ursula_le_guin@gmail.com");
     assert_eq!(saved.name, "le guin");
+
+    teardown(app).await;
 }
 
 #[actix_web::test]
@@ -44,6 +46,8 @@ async fn subscribe_returns_a_400_when_data_is_missing() {
             error_message
         );
     }
+
+    teardown(app).await;
 }
 
 #[actix_web::test]
@@ -68,4 +72,6 @@ async fn subscribe_returns_a_400_when_fields_are_present_but_invalid() {
             description
         );
     }
+
+    teardown(app).await;
 }

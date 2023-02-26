@@ -15,20 +15,14 @@ if ! [ -x "$(command -v sqlx)" ]; then
   exit 1
 fi
 
-DB_USER=${POSTGRES_USER:=postgres}
-DB_PASSWORD="${POSTGRES_PASSWORD:=password}"
+DB_USER=${POSTGRES_USER:=zero2prod}
+DB_PASSWORD="${POSTGRES_PASSWORD:=zero2prod_password}"
 DB_NAME="${POSTGRES_DB:=newsletter}"
 DB_PORT="${POSTGRES_PORT:=5432}"
 
 # Allow to skip Docker if a dockerized Postgres database is already running
 if [[ -z "${SKIP_DOCKER}" ]]; then
-  docker run \
-    -e POSTGRES_USER=${DB_USER} \
-    -e POSTGRES_PASSWORD=${DB_PASSWORD} \
-    -e POSTGRES_DB=${DB_NAME} \
-    -p "${DB_PORT}":5432 \
-    -d postgres \
-    postgres -N 1000
+  (cd docker && docker compose up -d)
 fi
 
 export PGPASSWORD="${DB_PASSWORD}"
@@ -43,4 +37,4 @@ export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${
 sqlx database create
 sqlx migrate run
 
-echo >&2 "Postgres has been migrated, ready to go!"
+echo >&2 "Postgres has been migrated and ready to go!"
