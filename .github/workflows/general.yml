@@ -107,9 +107,9 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
+          POSTGRES_USER: zero2prod
+          POSTGRES_PASSWORD: zero2prod_password
+          POSTGRES_DB: newsletter
         ports:
           - 5432:5432
       redis:
